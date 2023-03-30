@@ -21,14 +21,15 @@
 					}
 				],
 				"url": {
-					"raw": "https://catfact.ninja/fact",
+					"raw": "https://catfact.ninja/fact/",
 					"protocol": "https",
 					"host": [
 						"catfact",
 						"ninja"
 					],
 					"path": [
-						"fact"
+						"fact",
+						""
 					]
 				}
 			},
