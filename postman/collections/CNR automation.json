@@ -1,0 +1,1106 @@
+{
+	"info": {
+		"_postman_id": "01ebb26a-b8c6-4f36-b7d0-feca22eb9c8e",
+		"name": "CNR automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "26626745-01ebb26a-b8c6-4f36-b7d0-feca22eb9c8e"
+	},
+	"item": [
+		{
+			"name": "Get the token",
+			"item": [
+				{
+					"name": "cnr generate access_token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "dd8bb31b-06c4-49dd-a3b7-c7a71955973a",
+								"exec": [
+									"// okta environment endpoint",
+									"const AUD = \"https://sso-dev.renault.com/oauth2/austmw35vFS9ZhxVY416/v1/token\";",
+									"//const AUD = \"https://sso-uat.renault.com/oauth2/austwoeshbCkPJyw1416/v1/token\";",
+									"//const AUD = \"https://sso.renault.com/oauth2/aus133y6mks4ptDss417/v1/token\";",
+									"   ",
+									"// client id of your application",
+									"const CLIENT_ID=\"irn-74772_dev_pkjwt_w7djluvltrxp\";",
+									"  ",
+									"// certificate kid (cf. https://synergyprod1.service-now.com/it?id=sc_cat_item&sys_id=04c550d9878d011096bb20aabbbb35c1 )",
+									"const KID=\"2025-03-13-2511347\";",
+									"  ",
+									"// your certificate private key",
+									"const PRIVATE_KEY = \"-----BEGIN PRIVATE KEY-----\\",
+									"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/z56kyzwmNNmp\\",
+									"A4zqqp43jPTqpU5TSpmR8r3NTtPuAfL5MUqjarsfGxiKDbFgUTv+DHSZIeAU3ZaJ\\",
+									"Oa/Uclo4OKrq3wH2ZlLIuYz7lwbReSuAmE1WRKbLsEtO+qYw9OLrnzYPACF79Irp\\",
+									"lydKjrFGV5vbckamUNAuoTKkh/8PKTsDANtik0X/KzwdwOI1guA78OSWREuH9xc5\\",
+									"yBg+LfXf7JVQMerhVWerdkWfszKmzd7IHJvk5sZkm6d0ju6AZ4ewdEyozDQTdEdP\\",
+									"32+tKgkusKNwNtl05AEFmx3PplecETz+1cLjkQVRVAmdz7Uw/AtV2cB3qG/jHH92\\",
+									"po0o+ULxAgMBAAECggEAZwubJt0oSz5JUMtfgRJ4PU+0o/p6wbRqHEZUQV//6vWR\\",
+									"Gt6oQnKsZGGiJUiF6kC6Ahme6kWQpKUGomIjW/azEVEgQV3dKAqAnuVQIDlaqF54\\",
+									"SHWJ1ra7BOKJEr0FW3e0EPFPkW94jacqmaNisGNISYn3aUVTPzZbITHoiwuksvd9\\",
+									"R9uhUuHDZ2WBSppVOuejW3jrK0Ea5gCCeBusBJtCyoewPa9oEgOyrHGxUwXqxQJ9\\",
+									"1FCVODOofSTZRO0WWzuUs9bTF98dAy8flNrSSRBM8idRSgiedYSPguwz57VlSkBc\\",
+									"zm1fsfWV0HQF4M7XxhmHy/tTuIeneiKP9phAwATLgQKBgQDlZ7kMv9CO15mOj+w3\\",
+									"5BZhq9QmZq6v4awXbB4xRycpgJLoazwmK6V2VrgKmZ164Zy/7IfvVlqPVp1UbYRN\\",
+									"Q+ecXuG8U1H0M/lBAShwRZJphPHEHlIiSOHsOsald4ZlWLPFFDWPK0A9xtQacd+3\\",
+									"FqH253yZ2uaj/sugSG+aVHUHlQKBgQDWDC3a+nTXFKhb04xrzpE2HtOxaqcSb7S/\\",
+									"DqbKDZnpPXpndc1qa/XTx8TR4PqRtOyxkU+d5IO3qNuNER3cGcJKQQbopK/nUttj\\",
+									"0EwIKO0Hl66tKzKKoNjNmQK4/9C+FqaI9/0cZjOFtVtM2JsP7Lz7UgNXNpaioyb5\\",
+									"o4oEoLTG7QKBgHl886gH0RhEn4K7P3rd5Oh2yhRIHszwM2X4EQlByECXYbWKTMFe\\",
+									"LfM8u5yJe7e+0XdmeRrL3Yu5b/ptQTp18quCKAPHEEjGWYMObO8AOSh+ila1RAP6\\",
+									"GwMyoU6xvM/hKNr+99pJKm1M5bjXg4V/i+io8Pi9z5Ub85R/p/LQNWX9AoGAf5XS\\",
+									"32vaqTlPAS0fzkLam3/UfzQrUfnzqs547Ice7sAObgzx3DVt2kaBMvj/YkqNq2oK\\",
+									"IvtK5/Zmp7dELSXNgaUxEQrZLvFchCpsp5B9eMEZBW9yON+XWzWRQeR58FRf/9SR\\",
+									"spPYsiJfwXZ7NwrNuqAwDZQkRd0qJjMs2YVRPCECgYEA0Sd/SAdNOlonflgO1T/R\\",
+									"YiC4zb6kvSI31VyYCmuXJBFF/ndUZ0uk3UPaPpAdb3p12/RjgYbQ7fkyhLv4I3lo\\",
+									"nBspgzqpUmoAy6g8wrz78P6aCkLlmuW9evS3o1XvhPzFnvB7MZ43bKjaktx+/fET\\",
+									"0Zy8uQlUJn88kCDglG+FjIo=\\",
+									"-----END PRIVATE KEY-----\";",
+									"   ",
+									"//life time of the assertion in seconds",
+									"const LIFE_TIME = 300;",
+									"  ",
+									"/********** END CONST ******************/",
+									"   ",
+									"var navigator = {};",
+									"var window = {};",
+									"pm.sendRequest('https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.20/jsrsasign-all-min.js', (err, res) => {",
+									"eval(res.text());",
+									"   ",
+									"// Set headers for JWT",
+									"var header = {",
+									"    \"kid\": KID,",
+									"    \"alg\": \"RS256\"",
+									"};",
+									"   ",
+									"// Prepare timestamp in seconds",
+									"var currentTimestamp = Math.floor(Date.now() / 1000);",
+									"   ",
+									"var data = {",
+									"  \"aud\": AUD,",
+									"  \"exp\": currentTimestamp + LIFE_TIME,",
+									"  \"iss\": CLIENT_ID,",
+									"  \"sub\": CLIENT_ID,",
+									"  \"iat\": currentTimestamp,",
+									"  \"jti\": generateUUID()",
+									" ",
+									"};",
+									"   ",
+									"var sHeader = JSON.stringify(header);",
+									"var sPayload = JSON.stringify(data);",
+									"   ",
+									"var sJWT = KJUR.jws.JWS.sign(header.alg, sHeader, sPayload, PRIVATE_KEY);",
+									"   ",
+									"pm.environment.set('client_assertion', sJWT)",
+									"});",
+									" ",
+									"function generateUUID() { ",
+									"    var d = new Date().getTime();",
+									"    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+									"        var r = Math.random() * 16;",
+									"        if(d > 0){",
+									"            r = (d + r)%16 | 0;",
+									"            d = Math.floor(d/16);",
+									"        } else {",
+									"            r = (d2 + r)%16 | 0;",
+									"            d2 = Math.floor(d2/16);",
+									"        }",
+									"        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9f43b93-bade-40b6-a88f-79859429282c",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"cnr_okta_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6a4b71bd-3243-4a6a-ab5d-82367fa0b517",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "apis.default ",
+									"type": "text"
+								},
+								{
+									"key": "client_assertion_type",
+									"value": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+									"type": "text"
+								},
+								{
+									"key": "client_assertion",
+									"value": "{{client_assertion}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://sso-dev.renault.com/oauth2/austmw35vFS9ZhxVY416/v1/token",
+							"protocol": "https",
+							"host": [
+								"sso-dev",
+								"renault",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"austmw35vFS9ZhxVY416",
+								"v1",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "dde0dd14-2c0a-41d2-9481-feaed547261f"
+		},
+		{
+			"name": "Confirmation de souscription OK",
+			"item": [
+				{
+					"name": "Get the eligible services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4e512895-8cce-4b2a-9e68-d84fd372b23b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subscriptions/{{vin}}/eligible-offers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								"{{vin}}",
+								"eligible-offers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "a51baf57-aac9-432d-b3c3-4ed9446507be",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e4b98df3-83e5-4723-962a-a28a943d06c2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"genericOfferId\": \"{{FirstGOffer}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/event",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End the subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0451ffd2-889e-479b-98e2-7172246ffa87",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstGOffer = pm.environment.get(\"FirstGOffer\");\r",
+									"pm.test(\"The gOffer >\"+FirstGOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstGOffer);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "8a76c86b-c9d1-4e37-b249-2685684ef7a5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/subscriptions/{{vin}}/{{FirstGOffer}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								"{{vin}}",
+								"{{FirstGOffer}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "41920451-d8cd-4262-8cf7-ae617917c4ac"
+		},
+		{
+			"name": "Get the subscriptions for a VIN OK",
+			"item": [
+				{
+					"name": "Get the subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f69a0309-e28b-4975-8bbe-8ce179f84fc5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subscriptions/{{vin}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								"{{vin}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the subscription events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e72bafff-d773-47a8-a19d-d786bb94cdab",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subscriptions/a19bcfc9-3769-45bb-a9d2-0f5146f93d5e/events",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								"a19bcfc9-3769-45bb-a9d2-0f5146f93d5e",
+								"events"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "8a67d301-d9f7-4788-9b4f-74afe08841b6"
+		},
+		{
+			"name": "Souscription KO COffre non existante ou pas fournie ou vide",
+			"item": [
+				{
+					"name": "Subscription KO COffer non correct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 412\", function () {\r",
+									"    pm.response.to.have.status(412);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"contextual offer is not applicable for the VIN\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"contextual offer is not applicable for the VIN\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "5d8f9d64-ea0b-4131-92f1-0ae361c6efde",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO COffer vide",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"contextualOfferId should not be empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"contextualOfferId should not be empty\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "cc474a92-b86c-48d2-92fb-21cafe4ff291",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO COffer non fournie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"contextualOfferId should not be empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"contextualOfferId should not be empty\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "fede3e85-76a0-4455-b84f-f38124d4d127",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "c41d5a17-b52f-4d94-a29f-673f613c8921"
+		},
+		{
+			"name": "Souscription KO Vin pas au bon format ou pas fournie ou vide",
+			"item": [
+				{
+					"name": "Subscription KO Vin pas au bon format caractères speciaux",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The format for the VIN is invalid\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"The format for the VIN is invalid\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "ffeeb480-2232-4ac4-b4ec-4d417b8d01af",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF662222222-22222\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO Vin not in the the right format less than 17 characters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"The format for the VIN is invalid\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"The format for the VIN is invalid\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "887147f3-cf41-41f7-bd96-9d021187c88c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VN22223000000000\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO Vin not in the the right format more than 17 characters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The format for the VIN is invalid\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"The format for the VIN is invalid\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "7fbbffb5-7ff4-4660-84f6-7a2906529f73",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VN222230000000000000\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO Vin vide",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"vin should not be empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"vin should not be empty\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "8a0d2b31-1200-4bee-bd79-aface9863313",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO COffer non fournie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"vin should not be empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"vin should not be empty\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "c8d2b50d-ddd1-4809-a735-aefe3de5a62b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "df9c2a60-cca7-4bf6-b8e5-feb958a4ec0e"
+		}
+	]
+}
