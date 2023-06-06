@@ -9,6 +9,7 @@ id = 3d229154-5530-4c4c-916d-755d9387af9e
 
 [config.relations.collections]
 rootDirectory = postman/collections
+files[] = {"id":"26626745-b2623e9e-289a-412b-b2e7-bfde23bc6f61","path":"CNRautomation Copy.json","metaData":{}}
 files[] = {"id":"26626745-01ebb26a-b8c6-4f36-b7d0-feca22eb9c8e","path":"CNRautomation.json","metaData":{}}
 files[] = {"id":"26626745-707d0652-aa08-4bbe-9d33-c3f2a2ace023","path":"New Collection.json","metaData":{}}
 files[] = {"id":"26626745-729dffe3-ab83-4501-85c5-59a0012fd760","path":"test collection.json","metaData":{}}

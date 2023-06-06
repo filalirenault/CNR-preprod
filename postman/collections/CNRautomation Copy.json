@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "01ebb26a-b8c6-4f36-b7d0-feca22eb9c8e",
-		"name": "CNRautomation",
+		"_postman_id": "b2623e9e-289a-412b-b2e7-bfde23bc6f61",
+		"name": "CNRautomation Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "26626745-01ebb26a-b8c6-4f36-b7d0-feca22eb9c8e"
+		"_uid": "26626745-b2623e9e-289a-412b-b2e7-bfde23bc6f61"
 	},
 	"item": [
 		{
@@ -15,7 +15,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "dd8bb31b-06c4-49dd-a3b7-c7a71955973a",
+								"id": "6c87c77c-6ff1-4971-a847-821255aac1b5",
 								"exec": [
 									"// okta environment endpoint",
 									"const AUD = \"https://sso-dev.renault.com/oauth2/austmw35vFS9ZhxVY416/v1/token\";",
@@ -118,7 +118,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a9f43b93-bade-40b6-a88f-79859429282c",
+								"id": "15faec34-7c82-4f7a-b2cb-3240756fe9d0",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"cnr_okta_token\", jsonData.access_token);"
@@ -127,7 +127,7 @@
 							}
 						}
 					],
-					"id": "6a4b71bd-3243-4a6a-ab5d-82367fa0b517",
+					"id": "eda187f9-e615-49aa-be05-d23e90770eda",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -178,7 +178,7 @@
 					"response": []
 				}
 			],
-			"id": "dde0dd14-2c0a-41d2-9481-feaed547261f"
+			"id": "194e53b7-232b-4552-a4b1-529474fac7a4"
 		},
 		{
 			"name": "Confirmation de souscription OK",
@@ -189,7 +189,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"id": "a9503d50-833b-47dc-aae6-ac392da107ab",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);\r",
 									"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
@@ -205,7 +205,7 @@
 							}
 						}
 					],
-					"id": "4e512895-8cce-4b2a-9e68-d84fd372b23b",
+					"id": "b99f9d28-c211-4289-96f7-bb04e1401068",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -242,7 +242,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "190d7aa4-3107-44a3-939c-c9f787786270",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
@@ -262,7 +262,7 @@
 							}
 						}
 					],
-					"id": "a51baf57-aac9-432d-b3c3-4ed9446507be",
+					"id": "95cd853e-2a43-42e1-941c-e061f801cfad",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -317,7 +317,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+								"id": "a60f5870-ddbd-4e4f-899a-e503bb3432b2",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -329,7 +329,7 @@
 							}
 						}
 					],
-					"id": "e4b98df3-83e5-4723-962a-a28a943d06c2",
+					"id": "ae85f3de-b0f7-4f2a-8d8b-1a92818177d8",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -373,7 +373,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0451ffd2-889e-479b-98e2-7172246ffa87",
+								"id": "bdd7e903-72cd-4d1b-b42e-05decf8c2f58",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
@@ -393,7 +393,7 @@
 							}
 						}
 					],
-					"id": "8a76c86b-c9d1-4e37-b249-2685684ef7a5",
+					"id": "1fa21df6-fbef-4127-bdf9-6975a20b4dda",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -436,7 +436,7 @@
 					"response": []
 				}
 			],
-			"id": "41920451-d8cd-4262-8cf7-ae617917c4ac"
+			"id": "fed9fe58-de09-475d-9888-ddaecca578a4"
 		},
 		{
 			"name": "Get the subscriptions for a VIN OK",
@@ -447,7 +447,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"id": "5fa0e1a1-b43b-467c-83d7-1004abb5a025",
 								"exec": [
 									""
 								],
@@ -455,7 +455,7 @@
 							}
 						}
 					],
-					"id": "f69a0309-e28b-4975-8bbe-8ce179f84fc5",
+					"id": "73fb0121-06d6-42da-919d-1799c2936e46",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -492,7 +492,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"id": "73e8824c-0ac1-4e4e-a128-710b3f2e6f6a",
 								"exec": [
 									""
 								],
@@ -500,7 +500,7 @@
 							}
 						}
 					],
-					"id": "e72bafff-d773-47a8-a19d-d786bb94cdab",
+					"id": "dfc9b9ae-a575-4077-955f-8441f491e9fd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -532,10 +532,10 @@
 					"response": []
 				}
 			],
-			"id": "8a67d301-d9f7-4788-9b4f-74afe08841b6"
+			"id": "afcb34be-8147-457f-9901-67f441cb1855"
 		},
 		{
-			"name": "Souscription KO COffre not existing or not delivered",
+			"name": "Souscription KO COffre non existante ou pas fournie ou vide",
 			"item": [
 				{
 					"name": "Subscription KO COffer non correct",
@@ -543,7 +543,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "e74c673d-fd0e-443b-848d-ee473faf252a",
 								"exec": [
 									"pm.test(\"Status code is 412\", function () {\r",
 									"    pm.response.to.have.status(412);\r",
@@ -557,7 +557,7 @@
 							}
 						}
 					],
-					"id": "5d8f9d64-ea0b-4131-92f1-0ae361c6efde",
+					"id": "624d6984-b899-46f0-b4f4-124b591ee5a4",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -612,7 +612,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "680a1e11-be5b-4c89-9f9f-3f0d358ba047",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
@@ -626,7 +626,7 @@
 							}
 						}
 					],
-					"id": "cc474a92-b86c-48d2-92fb-21cafe4ff291",
+					"id": "33ee5a6f-c0e7-4285-a874-fb43cc724dce",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -681,7 +681,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "48fa9797-dfd6-405f-a711-1ff73d1a6dcc",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
@@ -696,7 +696,7 @@
 							}
 						}
 					],
-					"id": "fede3e85-76a0-4455-b84f-f38124d4d127",
+					"id": "2ed0f07c-3fd4-4106-a514-3999cc33a8f5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -746,18 +746,18 @@
 					"response": []
 				}
 			],
-			"id": "c41d5a17-b52f-4d94-a29f-673f613c8921"
+			"id": "c659bda8-ff90-418c-9104-f909c4d52d79"
 		},
 		{
-			"name": "Souscription KO Vin in wrong format not delivered or empty",
+			"name": "Souscription KO Vin pas au bon format ou pas fournie ou vide",
 			"item": [
 				{
-					"name": "Subscription KO Vin not in the right format with special characters",
+					"name": "Subscription KO Vin pas au bon format caractères speciaux",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "2ce9d264-c559-4975-9a54-5552daeed4c1",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
@@ -773,7 +773,7 @@
 							}
 						}
 					],
-					"id": "ffeeb480-2232-4ac4-b4ec-4d417b8d01af",
+					"id": "131d4601-4ccd-4c5b-bc33-d2d1b40359fc",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -828,7 +828,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "e999ab17-b555-4943-88d9-60ee7774fba5",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
@@ -841,7 +841,7 @@
 							}
 						}
 					],
-					"id": "887147f3-cf41-41f7-bd96-9d021187c88c",
+					"id": "16ad8fa0-b2e7-45ec-ad85-8949adfb45f5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -896,7 +896,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "9ce48bd7-6af1-4dce-927b-2259780158e0",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
@@ -910,7 +910,7 @@
 							}
 						}
 					],
-					"id": "7fbbffb5-7ff4-4660-84f6-7a2906529f73",
+					"id": "894b7778-94f2-4a4a-b688-ae0c5fcc6065",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -960,12 +960,12 @@
 					"response": []
 				},
 				{
-					"name": "Subscription KO Vin empty",
+					"name": "Subscription KO Vin vide",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "5d59858a-d807-4b13-9882-99c008fae236",
 								"exec": [
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
@@ -980,7 +980,7 @@
 							}
 						}
 					],
-					"id": "8a0d2b31-1200-4bee-bd79-aface9863313",
+					"id": "10288995-c57c-4250-86f6-c9f6bf9895ef",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1030,12 +1030,12 @@
 					"response": []
 				},
 				{
-					"name": "Subscription KO COffer not delivered",
+					"name": "Subscription KO COffer non fournie",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"id": "9f661549-0899-456d-b6af-103bf32871e3",
 								"exec": [
 									"\r",
 									"pm.test(\"Status code is 400\", function () {\r",
@@ -1050,7 +1050,7 @@
 							}
 						}
 					],
-					"id": "c8d2b50d-ddd1-4809-a735-aefe3de5a62b",
+					"id": "77e78304-e4e1-4599-8f34-59a0d6170352",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1100,7 +1100,7 @@
 					"response": []
 				}
 			],
-			"id": "df9c2a60-cca7-4bf6-b8e5-feb958a4ec0e"
+			"id": "2113e17b-be0f-476f-8533-9fd657680c15"
 		}
 	]
 }
