@@ -7,6 +7,1013 @@
 	},
 	"item": [
 		{
+			"name": "Confirmation de souscription OK Copy",
+			"item": [
+				{
+					"name": "Reset date",
+					"id": "293b8c14-8e09-4c30-826f-673f3b2acbbf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/god-mode/mock-clock/reset",
+							"protocol": "https",
+							"host": [
+								"cnr-spike-cnr",
+								"ext",
+								"gke2",
+								"dev",
+								"gcp",
+								"renault",
+								"com"
+							],
+							"path": [
+								"god-mode",
+								"mock-clock",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the eligible services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"SecondCOffer\", jsonData[1].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"ThirdCOffer\", jsonData[2].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"FourthCOffer\", jsonData[3].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"SecondGOffer\", jsonData[2].genericOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"ThirdGOffer\", jsonData[3].genericOfferId);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "666ba603-4207-4915-9e11-6bc69496278b",
+								"exec": [
+									"pm.environment.set(\"vin\", \"VF\" + Math.floor((Math.random() * (999999999999999-100000000000000) + 100000000000000)));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "32739344-825c-483b-9a5f-2041451669dd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subscriptions/:vin/eligible-offers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								":vin",
+								"eligible-offers"
+							],
+							"variable": [
+								{
+									"key": "vin",
+									"value": "VF123456789123456"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "9bffe943-bbbc-4e22-8890-92446a686a0b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e3847197-06f2-456b-a277-7ed0d66cc53b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"genericOfferId\": \"OFFER_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/event",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start usage",
+					"id": "c30aa54d-7146-4194-8e2d-674518b7df15",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDate\": \"2023-06-30T15:56:02.190Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/subscriptions/:vin/:offer/start-usage",
+							"protocol": "https",
+							"host": [
+								"cnr-spike-cnr",
+								"ext",
+								"gke2",
+								"dev",
+								"gcp",
+								"renault",
+								"com"
+							],
+							"path": [
+								"subscriptions",
+								":vin",
+								":offer",
+								"start-usage"
+							],
+							"variable": [
+								{
+									"key": "vin",
+									"value": "VF123456789123456"
+								},
+								{
+									"key": "offer",
+									"value": "OFFER_1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End the subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0451ffd2-889e-479b-98e2-7172246ffa87",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstGOffer = pm.environment.get(\"FirstGOffer\");\r",
+									"pm.test(\"The gOffer >\"+FirstGOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstGOffer);\r",
+									"});\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "df33e0a8-c0d4-4c55-9c24-2bbd2a87cda8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/subscriptions/:vin/:goffer",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								":vin",
+								":goffer"
+							],
+							"variable": [
+								{
+									"key": "vin",
+									"value": "VF123456789123456"
+								},
+								{
+									"key": "goffer",
+									"value": "OFFER_1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "77eaedea-bc15-4ec7-b4c4-6a44bd11f88a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "fba67746-f5dd-4ab3-81af-b55bdef1b06c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"genericOfferId\": \"OFFER_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/event",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO OC1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e77618e9-73ee-4bed-833e-7f6ebb1c72b5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO OC2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f2b401fd-ca7e-4635-a79a-58551ec37fd1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription OK OC3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "2aa82f66-a0a0-464e-8830-99c80e2df50e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change date to future",
+					"id": "50fa637c-128f-45b0-b8fb-c595ad3f9023",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/god-mode/mock-clock/now?now=2026-04-15",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"god-mode",
+								"mock-clock",
+								"now"
+							],
+							"query": [
+								{
+									"key": "now",
+									"value": "2026-04-15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription Renew OK OC1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "609adbbf-1710-4f9b-8964-b39591e3ed36",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End the subscription OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0451ffd2-889e-479b-98e2-7172246ffa87",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(vin);\r",
+									"});\r",
+									"\r",
+									"var FirstGOffer = pm.environment.get(\"FirstGOffer\");\r",
+									"pm.test(\"The gOffer >\"+FirstGOffer+\"< is correct\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(FirstGOffer);\r",
+									"});\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6e42951c-1e7e-4cac-8d76-02fda9625c9d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/subscriptions/:vin/:goffer",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								":vin",
+								":goffer"
+							],
+							"variable": [
+								{
+									"key": "vin",
+									"value": "VF123456789123456"
+								},
+								{
+									"key": "goffer",
+									"value": "OFFER_1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "847be9e3-5878-4b47-ab23-d901c083242a",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca58d44b-f6a5-4d28-8dbd-7aa014eaa085",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "77cea05e-e9a8-4247-839f-0e857cdd8ef2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "New Request",
 			"event": [
 				{

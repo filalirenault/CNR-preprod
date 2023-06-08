@@ -478,53 +478,7 @@
 			"response": []
 		},
 		{
-			"name": "Change date to future",
-			"id": "73cf411b-8d5f-4dd1-b578-d67991d5bf03",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{cnr_okta_token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/god-mode/mock-clock/now?now=2025-04-01",
-					"protocol": "https",
-					"host": [
-						"cnr-spike-cnr",
-						"ext",
-						"gke2",
-						"dev",
-						"gcp",
-						"renault",
-						"com"
-					],
-					"path": [
-						"god-mode",
-						"mock-clock",
-						"now"
-					],
-					"query": [
-						{
-							"key": "now",
-							"value": "2025-04-01"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Terminate",
+			"name": "Start usage",
 			"id": "807948ed-d137-40da-b9a9-95bb0900e41f",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -681,52 +635,6 @@
 			"response": []
 		},
 		{
-			"name": "Change date to future",
-			"id": "50fa637c-128f-45b0-b8fb-c595ad3f9023",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{cnr_okta_token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/god-mode/mock-clock/now?now=2024-03-09",
-					"protocol": "https",
-					"host": [
-						"cnr-spike-cnr",
-						"ext",
-						"gke2",
-						"dev",
-						"gcp",
-						"renault",
-						"com"
-					],
-					"path": [
-						"god-mode",
-						"mock-clock",
-						"now"
-					],
-					"query": [
-						{
-							"key": "now",
-							"value": "2024-03-09"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Subscription",
 			"id": "eca95d05-715d-4904-b513-f2e636d9c0fd",
 			"protocolProfileBehavior": {
@@ -779,46 +687,6 @@
 					],
 					"path": [
 						"subscription"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Reset date",
-			"id": "293b8c14-8e09-4c30-826f-673f3b2acbbf",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{cnr_okta_token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/god-mode/mock-clock/reset",
-					"protocol": "https",
-					"host": [
-						"cnr-spike-cnr",
-						"ext",
-						"gke2",
-						"dev",
-						"gcp",
-						"renault",
-						"com"
-					],
-					"path": [
-						"god-mode",
-						"mock-clock",
-						"reset"
 					]
 				}
 			},
