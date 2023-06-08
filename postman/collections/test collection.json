@@ -195,7 +195,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -501,63 +501,6 @@
 					"response": []
 				},
 				{
-					"name": "Activation",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "32790b4b-eef7-4764-8441-ceafe1154397",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"var vin = pm.environment.get(\"vin\");\r",
-									"console.log(vin);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "fba67746-f5dd-4ab3-81af-b55bdef1b06c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{cnr_okta_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"genericOfferId\": \"OFFER_1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/event",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"event"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Subscription KO OC1",
 					"event": [
 						{
@@ -792,6 +735,63 @@
 					"response": []
 				},
 				{
+					"name": "Activation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "fba67746-f5dd-4ab3-81af-b55bdef1b06c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"VF123456789123456\",\r\n  \"genericOfferId\": \"OFFER_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/event",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Change date to future",
 					"id": "50fa637c-128f-45b0-b8fb-c595ad3f9023",
 					"protocolProfileBehavior": {
@@ -811,7 +811,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/god-mode/mock-clock/now?now=2026-04-15",
+							"raw": "{{url}}/god-mode/mock-clock/now?now=2024-05-15",
 							"host": [
 								"{{url}}"
 							],
@@ -823,7 +823,7 @@
 							"query": [
 								{
 									"key": "now",
-									"value": "2026-04-15"
+									"value": "2024-05-15"
 								}
 							]
 						}
@@ -1012,52 +1012,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "New Request",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "504bcb46-d64c-4e87-a8cd-b78d5a8f1d45",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Response time is less than 200ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"id": "9d5c4fa1-bbb8-423e-9956-a29ec215e374",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "testmomofilali",
-						"value": "test"
-					}
-				],
-				"url": {
-					"raw": "https://catfact.ninja/fact/",
-					"protocol": "https",
-					"host": [
-						"catfact",
-						"ninja"
-					],
-					"path": [
-						"fact",
-						""
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }
