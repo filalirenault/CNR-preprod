@@ -195,11 +195,39 @@
 									"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
 									"\r",
 									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"SecondCOffer\", jsonData[1].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"ThirdCOffer\", jsonData[2].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"FourthCOffer\", jsonData[3].contextualOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
 									"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"SecondGOffer\", jsonData[2].genericOfferId);\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"ThirdGOffer\", jsonData[3].genericOfferId);\r",
 									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "666ba603-4207-4915-9e11-6bc69496278b",
+								"exec": [
+									"pm.environment.set(\"vin\", \"VF\" + Math.floor((Math.random() * (999999999999999-100000000000000) + 100000000000000)));"
 								],
 								"type": "text/javascript"
 							}
@@ -256,7 +284,10 @@
 									"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
 									"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
-									"});"
+									"});\r",
+									"\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
 								],
 								"type": "text/javascript"
 							}
@@ -323,7 +354,8 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									""
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
 								],
 								"type": "text/javascript"
 							}
@@ -387,7 +419,9 @@
 									"var FirstGOffer = pm.environment.get(\"FirstGOffer\");\r",
 									"pm.test(\"The gOffer >\"+FirstGOffer+\"< is correct\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(FirstGOffer);\r",
-									"});"
+									"});\r",
+									"var vin = pm.environment.get(\"vin\");\r",
+									"console.log(vin);"
 								],
 								"type": "text/javascript"
 							}
@@ -436,7 +470,29 @@
 					"response": []
 				}
 			],
-			"id": "41920451-d8cd-4262-8cf7-ae617917c4ac"
+			"id": "41920451-d8cd-4262-8cf7-ae617917c4ac",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca58d44b-f6a5-4d28-8dbd-7aa014eaa085",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "77cea05e-e9a8-4247-839f-0e857cdd8ef2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Get the subscriptions for a VIN OK",
@@ -533,6 +589,212 @@
 				}
 			],
 			"id": "8a67d301-d9f7-4788-9b4f-74afe08841b6"
+		},
+		{
+			"name": "Souscription KO Token not existing or not delivered or incorrect",
+			"item": [
+				{
+					"name": "Subscription KO Token not correct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71fbb5fe-bfa1-499c-819d-5ac1bfc92c68",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TokenValidationError: Not a JWT\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"TokenValidationError: Not a JWT\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "ae577af3-70d1-4731-9eec-c678c15014e2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO Token empty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71fbb5fe-bfa1-499c-819d-5ac1bfc92c68",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TokenValidationError: Not a JWT\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"TokenValidationError: Not a JWT\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4e15828f-fb8d-42ed-9fe3-809ea2484eeb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription KO Token not provided",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71fbb5fe-bfa1-499c-819d-5ac1bfc92c68",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Unauthorized\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6a10cea6-a709-4371-babb-16f0cf8fa35e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"CONTEXTUAL_OFFER_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "fe1432e2-ac55-497d-99c4-5b4474cccc0e"
 		},
 		{
 			"name": "Souscription KO COffre not existing or not delivered",
