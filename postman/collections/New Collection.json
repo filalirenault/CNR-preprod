@@ -712,7 +712,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/subscription?vin=VF121212121212121",
+					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/subscriptions/VF123456789123458/subscriptions",
 					"protocol": "https",
 					"host": [
 						"cnr-spike-cnr",
@@ -724,13 +724,49 @@
 						"com"
 					],
 					"path": [
-						"subscription"
-					],
-					"query": [
+						"subscriptions",
+						"VF123456789123458",
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get subscriptions Copy",
+			"id": "fef95198-d9a8-4d7c-8049-35bb8928cb5c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
 						{
-							"key": "vin",
-							"value": "VF121212121212121"
+							"key": "token",
+							"value": "{{cnr_okta_token}}",
+							"type": "string"
 						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/subscriptions/VF123456789123458/subscriptions",
+					"protocol": "https",
+					"host": [
+						"cnr-spike-cnr",
+						"ext",
+						"gke2",
+						"dev",
+						"gcp",
+						"renault",
+						"com"
+					],
+					"path": [
+						"subscriptions",
+						"VF123456789123458",
+						"subscriptions"
 					]
 				}
 			},

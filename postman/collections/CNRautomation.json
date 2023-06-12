@@ -343,6 +343,64 @@
 					"response": []
 				},
 				{
+					"name": "Get the subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"SubscriptionID\", jsonData[0].subscriptionId);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var status = jsonData[0].status;\r",
+									"\r",
+									"pm.test(\"The status is confirmed\", function () {\r",
+									"    pm.expect(status).to.equal(\"CONFIRMED\");\r",
+									"});\r",
+									"\r",
+									"console.log(status);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "81f3ddb2-09b2-47b8-bb23-23af1b0b1685",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subscriptions/{{vin}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								"{{vin}}",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Activation",
 					"event": [
 						{
@@ -394,6 +452,62 @@
 							],
 							"path": [
 								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the subscriptions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"var status = jsonData[0].status;\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"The status is active\", function () {\r",
+									"    pm.expect(status).to.equal(\"ACTIVE\");\r",
+									"});\r",
+									"\r",
+									"console.log(status);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "0072aa0b-1392-4adc-beb2-3765019f667b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{cnr_okta_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subscriptions/{{vin}}/subscriptions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subscriptions",
+								"{{vin}}",
+								"subscriptions"
 							]
 						}
 					},
@@ -468,35 +582,7 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"id": "41920451-d8cd-4262-8cf7-ae617917c4ac",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "ca58d44b-f6a5-4d28-8dbd-7aa014eaa085",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
 				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "77cea05e-e9a8-4247-839f-0e857cdd8ef2",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Get the subscriptions for a VIN OK",
-			"item": [
 				{
 					"name": "Get the subscriptions",
 					"event": [
@@ -505,7 +591,18 @@
 							"script": {
 								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
 								"exec": [
-									""
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"var status = jsonData[0].status;\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"The status is terminated\", function () {\r",
+									"    pm.expect(status).to.equal(\"TERMINATED\");\r",
+									"});\r",
+									"\r",
+									"console.log(status);"
 								],
 								"type": "text/javascript"
 							}
@@ -550,7 +647,36 @@
 							"script": {
 								"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
 								"exec": [
-									""
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"var status = jsonData[0].status;\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var eventNB =  jsonData.length;\r",
+									"pm.test(\"We have 3 events in this subscription\", function () {\r",
+									"    pm.expect(eventNB).to.equal(3);\r",
+									"});\r",
+									"\r",
+									"var firstEventType =  jsonData[2].type;\r",
+									"var secondEventType =  jsonData[1].type;\r",
+									"var thirdEventType =  jsonData[0].type;\r",
+									"\r",
+									"pm.test(\"The first event type is confirmed\", function () {\r",
+									"    pm.expect(firstEventType).to.equal(\"CONFIRMED\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The first event type is activated\", function () {\r",
+									"    pm.expect(secondEventType).to.equal(\"ACTIVATED\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The third event type is terminated on request\", function () {\r",
+									"    pm.expect(thirdEventType).to.equal(\"TERMINATED_ON_REQUEST\");\r",
+									"});\r",
+									"\r",
+									"console.log(eventNB);"
 								],
 								"type": "text/javascript"
 							}
@@ -574,13 +700,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/subscriptions/a19bcfc9-3769-45bb-a9d2-0f5146f93d5e/events",
+							"raw": "{{url}}/subscriptions/{{SubscriptionID}}/events",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"subscriptions",
-								"a19bcfc9-3769-45bb-a9d2-0f5146f93d5e",
+								"{{SubscriptionID}}",
 								"events"
 							]
 						}
@@ -588,7 +714,29 @@
 					"response": []
 				}
 			],
-			"id": "8a67d301-d9f7-4788-9b4f-74afe08841b6"
+			"id": "41920451-d8cd-4262-8cf7-ae617917c4ac",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca58d44b-f6a5-4d28-8dbd-7aa014eaa085",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "77cea05e-e9a8-4247-839f-0e857cdd8ef2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "Souscription KO Token not existing or not delivered or incorrect",
