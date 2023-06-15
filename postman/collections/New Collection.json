@@ -712,10 +712,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/subscriptions/VF123456789123458/subscriptions",
+					"raw": "https://cnr-subscriptions.ext.gke2.dev.gcp.renault.com/subscriptions/cdca1ec4-6ade-4bfc-bd04-7b2a325b964b/events",
 					"protocol": "https",
 					"host": [
-						"cnr-spike-cnr",
+						"cnr-subscriptions",
 						"ext",
 						"gke2",
 						"dev",
@@ -725,8 +725,8 @@
 					],
 					"path": [
 						"subscriptions",
-						"VF123456789123458",
-						"subscriptions"
+						"cdca1ec4-6ade-4bfc-bd04-7b2a325b964b",
+						"events"
 					]
 				}
 			},

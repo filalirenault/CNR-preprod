@@ -739,6 +739,1550 @@
 			]
 		},
 		{
+			"name": "Confirmation de souscription KO too early to renew",
+			"item": [
+				{
+					"name": "Too early to renew the subscription for the same G1Coffer1 befor 3 months",
+					"item": [
+						{
+							"name": "Get the eligible services",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondCOffer\", jsonData[1].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdCOffer\", jsonData[2].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FourthCOffer\", jsonData[3].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondGOffer\", jsonData[2].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdGOffer\", jsonData[3].genericOfferId);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "666ba603-4207-4915-9e11-6bc69496278b",
+										"exec": [
+											"pm.environment.set(\"vin\", \"VF\" + Math.floor((Math.random() * (999999999999999-100000000000000) + 100000000000000)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "54d4b806-b170-4401-965e-78dd60c72d24",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/subscriptions/{{vin}}/eligible-offers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions",
+										"{{vin}}",
+										"eligible-offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(vin);\r",
+											"});\r",
+											"\r",
+											"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+											"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1e2dd8aa-d64a-408b-b549-e28e9f612449",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "246cd907-7838-47cb-8a3b-67c66fa822a6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"genericOfferId\": \"{{FirstGOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change date to future add 9 months",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7347f35a-fec6-4d32-b9b7-dc27b71e068d",
+										"exec": [
+											"var date = new Date();\r",
+											"var newDate = new Date(date.setMonth(date.getMonth()+9));\r",
+											"console.log(newDate);\r",
+											"\r",
+											"pm.environment.set(\"now\", newDate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "69b6a29c-8d68-463c-9baa-5b3b4faf7e8e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/now?now={{now}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"now"
+									],
+									"query": [
+										{
+											"key": "now",
+											"value": "{{now}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "renew subscription to Gofferwith Coffer1 3mounths before",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 412\", function () {\r",
+											"    pm.response.to.have.status(412);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The error message is correct <It's to early to renew>\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"It's to early to renew\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "9eca3f16-06ad-4e5c-8527-f2d01525d2de",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset date",
+							"id": "ad800b32-8da9-4a93-aa66-5a5a0f08b0cc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/reset",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "a2934538-0002-4131-a36c-97ac50f2c0cf"
+				},
+				{
+					"name": "Too early to renew the subscription for the same G1Coffer2 befor 3 months",
+					"item": [
+						{
+							"name": "Get the eligible services",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondCOffer\", jsonData[1].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdCOffer\", jsonData[2].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FourthCOffer\", jsonData[3].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondGOffer\", jsonData[2].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdGOffer\", jsonData[3].genericOfferId);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "666ba603-4207-4915-9e11-6bc69496278b",
+										"exec": [
+											"pm.environment.set(\"vin\", \"VF\" + Math.floor((Math.random() * (999999999999999-100000000000000) + 100000000000000)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e6b171bb-79b7-42a8-973e-5acbd9d3ed06",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/subscriptions/{{vin}}/eligible-offers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions",
+										"{{vin}}",
+										"eligible-offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(vin);\r",
+											"});\r",
+											"\r",
+											"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+											"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c424ad09-193f-4f13-9593-ff75a891e0b7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6be19cd5-a6e6-4304-adf9-7a6e5fb8740d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"genericOfferId\": \"{{FirstGOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change date to future add 9 months",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7347f35a-fec6-4d32-b9b7-dc27b71e068d",
+										"exec": [
+											"var date = new Date();\r",
+											"var newDate = new Date(date.setMonth(date.getMonth()+9));\r",
+											"console.log(newDate);\r",
+											"\r",
+											"pm.environment.set(\"now\", newDate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4fccaf82-563c-4bf6-9848-2720f1a89246",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/now?now={{now}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"now"
+									],
+									"query": [
+										{
+											"key": "now",
+											"value": "{{now}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "renew subscription to Gofferwith Coffer1 3mounths before",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 412\", function () {\r",
+											"    pm.response.to.have.status(412);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The error message is correct <It's to early to renew>\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"It's to early to renew\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "20b9ca55-df86-4a8e-b328-377e0b15e0c2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{SecondCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset date",
+							"id": "c16a6302-2b24-4dfb-b7cb-c8a1650fa2f1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/reset",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "5a0f08b3-55ff-44a3-98e2-dfd74657db96"
+				},
+				{
+					"name": "Too early to renew the subscription for the same G1Coffer2 befor 6 months",
+					"item": [
+						{
+							"name": "Get the eligible services",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondCOffer\", jsonData[1].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdCOffer\", jsonData[2].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FourthCOffer\", jsonData[3].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondGOffer\", jsonData[2].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdGOffer\", jsonData[3].genericOfferId);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "666ba603-4207-4915-9e11-6bc69496278b",
+										"exec": [
+											"pm.environment.set(\"vin\", \"VF\" + Math.floor((Math.random() * (999999999999999-100000000000000) + 100000000000000)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1054f139-6c5b-425e-844d-30ebd4199802",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/subscriptions/{{vin}}/eligible-offers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions",
+										"{{vin}}",
+										"eligible-offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(vin);\r",
+											"});\r",
+											"\r",
+											"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+											"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "16f2ba39-ad7b-4dbf-8840-00e347bc1645",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "079f1b91-9c2d-48ea-88d0-b1de6a344a4e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"genericOfferId\": \"{{FirstGOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change date to future add 9 months",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7347f35a-fec6-4d32-b9b7-dc27b71e068d",
+										"exec": [
+											"var date = new Date();\r",
+											"var newDate = new Date(date.setMonth(date.getMonth()+6));\r",
+											"console.log(newDate);\r",
+											"\r",
+											"pm.environment.set(\"now\", newDate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "fbc0d8bf-55dd-4f41-8a8a-d8ca82b2e143",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/now?now={{now}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"now"
+									],
+									"query": [
+										{
+											"key": "now",
+											"value": "{{now}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "renew subscription to Gofferwith Coffer1 3mounths before",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 412\", function () {\r",
+											"    pm.response.to.have.status(412);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The error message is correct <It's to early to renew>\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"It's to early to renew\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "ed24cafe-1096-4702-88ed-2ea2c640a4d1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{SecondCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset date",
+							"id": "26d43020-53b7-46e0-9d4e-a38d0da1a4da",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/reset",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "a9a41285-db35-42c6-9b28-3d4cf85882f6"
+				},
+				{
+					"name": "Too early to renew the subscription for the same G1Coffer1 befor 6 months",
+					"item": [
+						{
+							"name": "Get the eligible services",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5414051a-68cb-402d-bdf4-a2f8538e3236",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstCOffer\", jsonData[0].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondCOffer\", jsonData[1].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdCOffer\", jsonData[2].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FourthCOffer\", jsonData[3].contextualOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"FirstGOffer\", jsonData[0].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"SecondGOffer\", jsonData[2].genericOfferId);\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"ThirdGOffer\", jsonData[3].genericOfferId);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "666ba603-4207-4915-9e11-6bc69496278b",
+										"exec": [
+											"pm.environment.set(\"vin\", \"VF\" + Math.floor((Math.random() * (999999999999999-100000000000000) + 100000000000000)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4ccf4a9e-e5de-4905-a912-2a52e199f8da",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/subscriptions/{{vin}}/eligible-offers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions",
+										"{{vin}}",
+										"eligible-offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"pm.test(\"The vin >\"+vin+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(vin);\r",
+											"});\r",
+											"\r",
+											"var FirstCOffer = pm.environment.get(\"FirstCOffer\");\r",
+											"pm.test(\"The cOffer >\"+FirstCOffer+\"< is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(FirstCOffer);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "912693af-867c-4f4b-9d44-f1d615d5f148",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32790b4b-eef7-4764-8441-ceafe1154397",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var vin = pm.environment.get(\"vin\");\r",
+											"console.log(vin);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7a954afc-77bf-4759-bc3a-45840605e869",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"genericOfferId\": \"{{FirstGOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/event",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change date to future add 9 months",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7347f35a-fec6-4d32-b9b7-dc27b71e068d",
+										"exec": [
+											"var date = new Date();\r",
+											"var newDate = new Date(date.setMonth(date.getMonth()+6));\r",
+											"console.log(newDate);\r",
+											"\r",
+											"pm.environment.set(\"now\", newDate);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "47ebbd21-3d64-45f3-a27f-acbb3e669082",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/now?now={{now}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"now"
+									],
+									"query": [
+										{
+											"key": "now",
+											"value": "{{now}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "renew subscription to Gofferwith Coffer1 3mounths before",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "48da0f2c-3bb4-4413-b805-bbd51bbcab9f",
+										"exec": [
+											"pm.test(\"Status code is 412\", function () {\r",
+											"    pm.response.to.have.status(412);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The error message is correct <It's to early to renew>\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"It's to early to renew\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "fca04102-0504-4244-a62e-91aecc22ea65",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vin\": \"{{vin}}\",\r\n  \"contextualOfferId\": \"{{FirstCOffer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/subscriptions",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset date",
+							"id": "5952b5cd-c648-4ea2-97fc-05c8d918b003",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{cnr_okta_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/god-mode/mock-clock/reset",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"god-mode",
+										"mock-clock",
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "1302f0d7-8152-4faf-aac3-8c3be15c5786"
+				}
+			],
+			"id": "a551c6f5-7971-439d-adf6-43a48c29baa9",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca58d44b-f6a5-4d28-8dbd-7aa014eaa085",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "77cea05e-e9a8-4247-839f-0e857cdd8ef2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "Subscription confirmation KO subscrining to a G1Coffer1 when another subscription to G1Coffer2 already exists",
 			"item": [
 				{

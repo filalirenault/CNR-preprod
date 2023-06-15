@@ -29,16 +29,9 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://cnr-spike-cnr.ext.gke2.dev.gcp.renault.com/god-mode/mock-clock/reset",
-							"protocol": "https",
+							"raw": "{{url}}/god-mode/mock-clock/reset",
 							"host": [
-								"cnr-spike-cnr",
-								"ext",
-								"gke2",
-								"dev",
-								"gcp",
-								"renault",
-								"com"
+								"{{url}}"
 							],
 							"path": [
 								"god-mode",
